@@ -1,0 +1,374 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "TNP HireBridge API",
+    "description": "Complete API collection for the HireBridge (TNP Job Portal) backend.\n\n**Setup**\n1. Import this collection into Postman.\n2. Default `baseUrl` is `http://localhost:5000/api`.\n3. Run **Login User** or **Login Admin** — the access token is saved automatically.\n4. Refresh/Logout use the `refreshToken` httpOnly cookie (enable cookies in Postman).\n\n**Demo credentials**\n- Admin: `admin@jobportal.com` / `Admin@123`\n- User: `user@jobportal.com` / `User@123`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "accessToken", "value": "" },
+    { "key": "jobId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/health",
+            "description": "Verify the API server is running."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"Password123\",\n  \"fullName\": \"New User\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/register",
+            "description": "Register a new user account (role: user)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (pm.response.code === 201 && res.data?.accessToken) {",
+                  "  pm.collectionVariables.set('accessToken', res.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@jobportal.com\",\n  \"password\": \"User@123\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login",
+            "description": "Login as demo user. Saves `accessToken` to collection variables."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (pm.response.code === 200 && res.data?.accessToken) {",
+                  "  pm.collectionVariables.set('accessToken', res.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@jobportal.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login",
+            "description": "Login as demo admin. Saves `accessToken` to collection variables."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (pm.response.code === 200 && res.data?.accessToken) {",
+                  "  pm.collectionVariables.set('accessToken', res.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": "{{baseUrl}}/auth/refresh",
+            "description": "Uses `refreshToken` httpOnly cookie from login. Optionally send `{ \"refreshToken\": \"...\" }` in body."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (pm.response.code === 200 && res.data?.accessToken) {",
+                  "  pm.collectionVariables.set('accessToken', res.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": "{{baseUrl}}/auth/logout",
+            "description": "Revokes refresh token (cookie or body)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/auth/me",
+            "description": "Get current authenticated user profile."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Jobs — Public",
+      "item": [
+        {
+          "name": "List Public Jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/public?page=1&limit=10&sortBy=created_at&sortOrder=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", "public"],
+              "query": [
+                { "key": "page", "value": "1", "description": "Page number (default: 1)" },
+                { "key": "limit", "value": "10", "description": "Items per page (max: 50)" },
+                { "key": "search", "value": "", "description": "Search title, company, location", "disabled": true },
+                { "key": "location", "value": "", "description": "Filter by location", "disabled": true },
+                { "key": "categoryId", "value": "", "description": "Filter by category ID", "disabled": true },
+                { "key": "categorySlug", "value": "", "description": "Filter by category slug", "disabled": true },
+                { "key": "experienceLevel", "value": "", "description": "entry|junior|mid|senior|lead|executive", "disabled": true },
+                { "key": "salaryMin", "value": "", "description": "Minimum salary filter", "disabled": true },
+                { "key": "sortBy", "value": "created_at", "description": "created_at | salary_max" },
+                { "key": "sortOrder", "value": "desc", "description": "asc | desc" }
+              ]
+            },
+            "description": "Browse published jobs with filters and pagination."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Featured Jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/jobs/public/featured",
+            "description": "Featured jobs for homepage (max 6)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Jobs By Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/jobs/public/by-category",
+            "description": "Published jobs grouped by category for landing page."
+          },
+          "response": []
+        },
+        {
+          "name": "List Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/jobs/categories",
+            "description": "All job categories."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Job Detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/jobs/public/{{jobId}}",
+            "description": "Public job detail. Pass Bearer token optionally to include user's application status."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Jobs — User",
+      "auth": {
+        "type": "bearer",
+        "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+      },
+      "item": [
+        {
+          "name": "Apply to Job",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coverLetter\": \"I am excited to apply for this role. I have relevant experience and would love to contribute to your team.\"\n}"
+            },
+            "url": "{{baseUrl}}/jobs/public/{{jobId}}/apply",
+            "description": "Apply to a published job. Requires user role. Cover letter: 20–2000 characters."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Jobs — Admin",
+      "auth": {
+        "type": "bearer",
+        "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+      },
+      "item": [
+        {
+          "name": "Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/jobs/admin/stats",
+            "description": "Admin dashboard statistics."
+          },
+          "response": []
+        },
+        {
+          "name": "List Jobs (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/admin?page=1&limit=10&status=published",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", "admin"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "status", "value": "published", "description": "draft | published | closed" },
+                { "key": "search", "value": "", "disabled": true },
+                { "key": "categoryId", "value": "", "disabled": true },
+                { "key": "experienceLevel", "value": "", "disabled": true },
+                { "key": "sortBy", "value": "created_at", "disabled": true },
+                { "key": "sortOrder", "value": "desc", "disabled": true }
+              ]
+            },
+            "description": "List all jobs (any status) with filters."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Job (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/jobs/admin/{{jobId}}",
+            "description": "Get job by ID (includes draft/closed)."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Job",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Backend Developer\",\n  \"description\": \"Build and maintain REST APIs using Node.js and PostgreSQL for our hiring platform.\",\n  \"requirements\": \"Node.js, Express, PostgreSQL, 2+ years experience\",\n  \"companyName\": \"TechNova Inc\",\n  \"location\": \"Bengaluru, Karnataka\",\n  \"salaryMin\": 800000,\n  \"salaryMax\": 1200000,\n  \"categoryId\": 1,\n  \"experienceLevel\": \"mid\",\n  \"status\": \"published\",\n  \"isFeatured\": false\n}"
+            },
+            "url": "{{baseUrl}}/jobs/admin",
+            "description": "Create a new job posting."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (pm.response.code === 201 && res.data?.id) {",
+                  "  pm.collectionVariables.set('jobId', res.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Update Job",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Backend Developer\",\n  \"description\": \"Build and maintain REST APIs using Node.js and PostgreSQL for our hiring platform.\",\n  \"requirements\": \"Node.js, Express, PostgreSQL, 2+ years experience\",\n  \"companyName\": \"TechNova Inc\",\n  \"location\": \"Bengaluru, Karnataka\",\n  \"salaryMin\": 800000,\n  \"salaryMax\": 1200000,\n  \"categoryId\": 1,\n  \"experienceLevel\": \"mid\",\n  \"status\": \"published\",\n  \"isFeatured\": true\n}"
+            },
+            "url": "{{baseUrl}}/jobs/admin/{{jobId}}",
+            "description": "Update an existing job."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Job",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/jobs/admin/{{jobId}}",
+            "description": "Delete a job by ID."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -41,3 +41,108 @@ export const getUserApplicationForJob = async (jobId, userId) => {
   );
   return rows[0] || null;
 };
+
+const formatApplicationRow = (row) => ({
+  id: row.id,
+  jobId: row.job_id,
+  userId: row.user_id,
+  coverLetter: row.cover_letter,
+  status: row.status,
+  appliedAt: row.applied_at,
+  job: {
+    id: row.job_id,
+    title: row.job_title,
+    companyName: row.company_name,
+    status: row.job_status,
+  },
+  applicant: {
+    id: row.user_id,
+    fullName: row.full_name,
+    email: row.email,
+  },
+});
+
+export const listApplications = async (filters = {}) => {
+  const page = Math.max(1, parseInt(filters.page, 10) || 1);
+  const limit = Math.min(50, Math.max(1, parseInt(filters.limit, 10) || 10));
+  const offset = (page - 1) * limit;
+
+  const conditions = [];
+  const params = [];
+  let idx = 1;
+
+  if (filters.jobId) {
+    conditions.push(`a.job_id = $${idx++}`);
+    params.push(Number(filters.jobId));
+  }
+  if (filters.status) {
+    conditions.push(`a.status = $${idx++}`);
+    params.push(filters.status);
+  }
+  if (filters.search) {
+    conditions.push(
+      `(u.full_name ILIKE $${idx} OR u.email ILIKE $${idx} OR j.title ILIKE $${idx})`
+    );
+    params.push(`%${filters.search}%`);
+    idx++;
+  }
+
+  const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
+  const countQuery = `
+    SELECT COUNT(*)::int AS total
+    FROM applications a
+    JOIN jobs j ON j.id = a.job_id
+    JOIN users u ON u.id = a.user_id
+    ${where}
+  `;
+  const { rows: countRows } = await pool.query(countQuery, params);
+  const total = countRows[0].total;
+
+  const dataQuery = `
+    SELECT
+      a.id, a.job_id, a.user_id, a.cover_letter, a.status, a.applied_at,
+      j.title AS job_title, j.company_name, j.status AS job_status,
+      u.full_name, u.email
+    FROM applications a
+    JOIN jobs j ON j.id = a.job_id
+    JOIN users u ON u.id = a.user_id
+    ${where}
+    ORDER BY a.applied_at DESC
+    LIMIT $${idx} OFFSET $${idx + 1}
+  `;
+  const { rows } = await pool.query(dataQuery, [...params, limit, offset]);
+
+  return {
+    applications: rows.map(formatApplicationRow),
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit) || 1,
+    },
+  };
+};
+
+export const updateApplicationStatus = async (id, status) => {
+  const { rows } = await pool.query(
+    `UPDATE applications SET status = $1
+     WHERE id = $2
+     RETURNING id, job_id, user_id, cover_letter, status, applied_at`,
+    [status, id]
+  );
+  if (!rows[0]) throw new AppError('Application not found', 404);
+
+  const detail = await pool.query(
+    `SELECT
+      a.id, a.job_id, a.user_id, a.cover_letter, a.status, a.applied_at,
+      j.title AS job_title, j.company_name, j.status AS job_status,
+      u.full_name, u.email
+    FROM applications a
+    JOIN jobs j ON j.id = a.job_id
+    JOIN users u ON u.id = a.user_id
+    WHERE a.id = $1`,
+    [id]
+  );
+  return formatApplicationRow(detail.rows[0]);
+};

@@ -35,7 +35,7 @@ export default function RegisterPage() {
       <UserHeader />
       <div className="mx-auto w-full max-w-md flex-1 px-4 py-12">
         <div className="card">
-          <h1 className="text-2xl font-bold text-slate-900">Create account</h1>
+          <h1 className="text-2xl font-bold text-stone-900">Create account</h1>
           {error && <Alert message={error} className="mt-4" />}
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
             <FormField label="Full Name" error={errors.fullName?.message} required>
@@ -79,9 +79,9 @@ export default function RegisterPage() {
               {loading ? <LoadingSpinner size="sm" /> : 'Register'}
             </button>
           </form>
-          <p className="mt-4 text-center text-sm text-slate-500">
+          <p className="mt-4 text-center text-sm text-stone-500">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary-600 hover:underline">
+            <Link to="/login" className="link-accent">
               Sign in
             </Link>
           </p>

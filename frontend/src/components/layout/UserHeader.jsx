@@ -13,23 +13,23 @@ export default function UserHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link to="/" className="text-xl font-bold text-primary-700">
-          JobPortal
+          HireBridge
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
-          <Link to="/" className="text-sm font-medium text-slate-600 hover:text-primary-600">
+          <Link to="/" className="text-sm font-medium text-stone-600 hover:text-accent-600">
             Home
           </Link>
-          <Link to="/jobs" className="text-sm font-medium text-slate-600 hover:text-primary-600">
+          <Link to="/jobs" className="text-sm font-medium text-stone-600 hover:text-accent-600">
             Browse Jobs
           </Link>
         </nav>
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              <span className="hidden text-sm text-slate-600 sm:inline">
+              <span className="hidden text-sm text-stone-600 sm:inline">
                 Hi, {user.fullName}
               </span>
               <button type="button" onClick={handleLogout} className="btn-secondary text-sm">

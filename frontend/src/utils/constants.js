@@ -13,12 +13,19 @@ export const JOB_STATUSES = [
   { value: 'closed', label: 'Closed' },
 ];
 
+export const APPLICATION_STATUSES = [
+  { value: 'pending', label: 'Pending' },
+  { value: 'reviewed', label: 'Reviewed' },
+  { value: 'accepted', label: 'Accepted' },
+  { value: 'rejected', label: 'Rejected' },
+];
+
 export const formatSalary = (min, max) => {
   if (!min && !max) return 'Competitive';
   const fmt = (n) =>
-    new Intl.NumberFormat('en-US', {
+    new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
       maximumFractionDigits: 0,
     }).format(n);
   if (min && max) return `${fmt(min)} - ${fmt(max)}`;

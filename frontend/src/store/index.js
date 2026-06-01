@@ -3,6 +3,7 @@ import authReducer from './slices/authSlice';
 import jobsReducer from './slices/jobsSlice';
 import categoriesReducer from './slices/categoriesSlice';
 import dashboardReducer from './slices/dashboardSlice';
+import applicationsReducer from './slices/applicationsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     jobs: jobsReducer,
     categories: categoriesReducer,
     dashboard: dashboardReducer,
+    applications: applicationsReducer,
   },
 });

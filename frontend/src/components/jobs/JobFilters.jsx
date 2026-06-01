@@ -6,20 +6,24 @@ export default function JobFilters({
   onChange,
   onReset,
   showStatus = false,
+  layout = 'stack',
 }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     onChange({ ...filters, [name]: value, page: 1 });
   };
 
-  return (
-    <div className="card space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-slate-800">Filters</h3>
-        <button type="button" onClick={onReset} className="text-sm text-primary-600 hover:underline">
-          Reset
-        </button>
-      </div>
+  const header = (
+    <div className="flex items-center justify-between">
+      <h3 className="font-semibold text-stone-800">Filters</h3>
+      <button type="button" onClick={onReset} className="link-accent text-sm">
+        Reset
+      </button>
+    </div>
+  );
+
+  const fields = (
+    <>
       <div>
         <label className="label-text">Search</label>
         <input
@@ -81,7 +85,7 @@ export default function JobFilters({
           name="salaryMin"
           value={filters.salaryMin || ''}
           onChange={handleChange}
-          placeholder="50000"
+          placeholder="500000"
           className="input-field"
           min="0"
         />
@@ -111,10 +115,27 @@ export default function JobFilters({
           className="input-field"
         >
           <option value="created_at">Date Posted</option>
-          <option value="title">Title</option>
           <option value="salary_max">Salary</option>
         </select>
       </div>
+    </>
+  );
+
+  if (layout === 'bar') {
+    return (
+      <div className="card mb-8">
+        <div className="mb-4">{header}</div>
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
+          {fields}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="card space-y-4">
+      {header}
+      {fields}
     </div>
   );
 }

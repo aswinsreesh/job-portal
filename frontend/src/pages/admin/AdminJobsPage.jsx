@@ -37,7 +37,7 @@ export default function AdminJobsPage() {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h2 className="text-2xl font-bold text-slate-900">Job Listings</h2>
+        <h2 className="text-2xl font-bold text-stone-900">Job Listings</h2>
         <Link to="/admin/jobs/new" className="btn-primary">
           + Create Job
         </Link>
@@ -57,9 +57,9 @@ export default function AdminJobsPage() {
           {loading ? (
             <LoadingSpinner className="py-16" />
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-              <table className="min-w-full divide-y divide-slate-200 text-sm">
-                <thead className="bg-slate-50">
+            <div className="overflow-x-auto rounded-xl border border-stone-200 bg-white">
+              <table className="min-w-full divide-y divide-stone-200 text-sm">
+                <thead className="bg-stone-50">
                   <tr>
                     <th className="px-4 py-3 text-left font-semibold">Title</th>
                     <th className="px-4 py-3 text-left font-semibold">Company</th>
@@ -69,9 +69,9 @@ export default function AdminJobsPage() {
                     <th className="px-4 py-3 text-right font-semibold">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-stone-100">
                   {list.map((job) => (
-                    <tr key={job.id} className="hover:bg-slate-50">
+                    <tr key={job.id} className="hover:bg-stone-50">
                       <td className="px-4 py-3 font-medium">{job.title}</td>
                       <td className="px-4 py-3">{job.companyName}</td>
                       <td className="px-4 py-3">{job.category?.name}</td>
@@ -82,7 +82,7 @@ export default function AdminJobsPage() {
                             job.status === 'published'
                               ? 'bg-green-100 text-green-800'
                               : job.status === 'draft'
-                                ? 'bg-slate-100 text-slate-700'
+                                ? 'bg-stone-100 text-stone-700'
                                 : 'bg-red-100 text-red-800'
                           }`}
                         >
@@ -92,7 +92,7 @@ export default function AdminJobsPage() {
                       <td className="px-4 py-3 text-right">
                         <Link
                           to={`/admin/jobs/${job.id}/edit`}
-                          className="mr-3 text-primary-600 hover:underline"
+                          className="link-accent mr-3 text-sm"
                         >
                           Edit
                         </Link>
@@ -109,7 +109,7 @@ export default function AdminJobsPage() {
                 </tbody>
               </table>
               {list.length === 0 && (
-                <p className="py-12 text-center text-slate-500">No jobs found.</p>
+                <p className="py-12 text-center text-stone-500">No jobs found.</p>
               )}
             </div>
           )}

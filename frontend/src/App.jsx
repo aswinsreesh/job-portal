@@ -13,7 +13,8 @@ import DashboardPage from './pages/admin/DashboardPage';
 import AdminJobsPage from './pages/admin/AdminJobsPage';
 import JobCreatePage from './pages/admin/JobCreatePage';
 import JobEditPage from './pages/admin/JobEditPage';
-import { fetchMe } from './store/slices/authSlice';
+import AdminApplicationsPage from './pages/admin/AdminApplicationsPage';
+import { fetchMe, markInitialized } from './store/slices/authSlice';
 import { setAccessToken } from './api/client';
 
 function AuthInit({ children }) {
@@ -21,14 +22,18 @@ function AuthInit({ children }) {
   const { initialized, accessToken } = useSelector((s) => s.auth);
 
   useEffect(() => {
-    if (accessToken) setAccessToken(accessToken);
-    dispatch(fetchMe());
+    if (accessToken) {
+      setAccessToken(accessToken);
+      dispatch(fetchMe());
+    } else {
+      dispatch(markInitialized());
+    }
   }, [dispatch, accessToken]);
 
   if (!initialized) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary-600 border-t-transparent" />
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-accent-500 border-t-transparent" />
       </div>
     );
   }
@@ -58,6 +63,7 @@ export default function App() {
           >
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="applications" element={<AdminApplicationsPage />} />
             <Route path="jobs" element={<AdminJobsPage />} />
             <Route path="jobs/new" element={<JobCreatePage />} />
             <Route path="jobs/:id/edit" element={<JobEditPage />} />

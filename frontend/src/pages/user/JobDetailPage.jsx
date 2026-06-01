@@ -54,7 +54,7 @@ export default function JobDetailPage() {
       <div className="flex min-h-screen flex-col">
         <UserHeader />
         <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-          <p className="text-slate-600">Job not found.</p>
+          <p className="text-stone-600">Job not found.</p>
           <Link to="/jobs" className="btn-primary mt-4 inline-block">
             Back to jobs
           </Link>
@@ -67,41 +67,41 @@ export default function JobDetailPage() {
     <div className="flex min-h-screen flex-col">
       <UserHeader />
       <article className="mx-auto w-full max-w-4xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
-        <Link to="/jobs" className="text-sm text-primary-600 hover:underline">
+        <Link to="/jobs" className="link-accent text-sm">
           ← Back to listings
         </Link>
         <div className="card mt-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">{current.title}</h1>
-              <p className="mt-2 text-lg text-slate-600">{current.companyName}</p>
+              <h1 className="text-3xl font-bold text-stone-900">{current.title}</h1>
+              <p className="mt-2 text-lg text-stone-600">{current.companyName}</p>
             </div>
             {current.isFeatured && (
-              <span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-800">
+              <span className="rounded-full bg-accent-100 px-3 py-1 text-sm font-semibold text-accent-800">
                 Featured
               </span>
             )}
           </div>
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
-            <span className="rounded-lg bg-slate-100 px-3 py-1">{current.location}</span>
-            <span className="rounded-lg bg-slate-100 px-3 py-1">
+            <span className="rounded-lg bg-surface-100 px-3 py-1">{current.location}</span>
+            <span className="rounded-lg bg-surface-100 px-3 py-1">
               {formatExperience(current.experienceLevel)}
             </span>
             <span className="rounded-lg bg-primary-50 px-3 py-1 text-primary-700">
               {current.category?.name}
             </span>
-            <span className="rounded-lg bg-green-50 px-3 py-1 font-medium text-green-700">
+            <span className="rounded-lg bg-accent-50 px-3 py-1 font-medium text-accent-700">
               {formatSalary(current.salaryMin, current.salaryMax)}
             </span>
           </div>
           <section className="mt-8">
             <h2 className="text-lg font-semibold">Description</h2>
-            <p className="mt-2 whitespace-pre-wrap text-slate-600">{current.description}</p>
+            <p className="mt-2 whitespace-pre-wrap text-stone-600">{current.description}</p>
           </section>
           {current.requirements && (
             <section className="mt-6">
               <h2 className="text-lg font-semibold">Requirements</h2>
-              <p className="mt-2 whitespace-pre-wrap text-slate-600">{current.requirements}</p>
+              <p className="mt-2 whitespace-pre-wrap text-stone-600">{current.requirements}</p>
             </section>
           )}
         </div>
@@ -156,7 +156,7 @@ export default function JobDetailPage() {
             </>
           ) : (
             <div>
-              <p className="text-slate-600">Sign in to apply for this position.</p>
+              <p className="text-stone-600">Sign in to apply for this position.</p>
               <button
                 type="button"
                 onClick={() => navigate('/login', { state: { from: `/jobs/${id}` } })}

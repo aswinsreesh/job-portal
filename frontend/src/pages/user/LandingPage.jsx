@@ -15,6 +15,7 @@ export default function LandingPage() {
   const dispatch = useDispatch();
   const { featured, byCategory } = useSelector((s) => s.jobs);
   const { loading, error } = useSelector((s) => s.jobs);
+  const { user } = useSelector((s) => s.auth);
 
   useEffect(() => {
     dispatch(fetchFeaturedJobs());
@@ -24,7 +25,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <UserHeader />
-      <section className="bg-gradient-to-br from-primary-700 to-primary-900 px-4 py-20 text-white sm:px-6 lg:px-8">
+      <section className="bg-primary-800 px-4 py-20 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Find Your Next Career Move
@@ -33,20 +34,22 @@ export default function LandingPage() {
             Discover thousands of opportunities from top companies. Apply in minutes.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link to="/jobs" className="btn-primary bg-white text-primary-700 hover:bg-primary-50">
+            <Link to="/jobs" className="btn-primary">
               Browse All Jobs
             </Link>
-            <Link to="/register" className="btn-secondary border-white text-white hover:bg-white/10">
-              Create Account
-            </Link>
+            {!user && (
+              <Link to="/register" className="btn-hero-outline">
+                Create Account
+              </Link>
+            )}
           </div>
         </div>
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900">Featured Jobs</h2>
-          <Link to="/jobs" className="text-sm font-medium text-primary-600 hover:underline">
+          <h2 className="text-2xl font-bold text-stone-900">Featured Jobs</h2>
+          <Link to="/jobs" className="link-accent text-sm">
             View all →
           </Link>
         </div>
@@ -60,13 +63,13 @@ export default function LandingPage() {
           </div>
         )}
         {!loading && featured.length === 0 && (
-          <p className="text-center text-slate-500">No featured jobs at the moment.</p>
+          <p className="text-center text-stone-500">No featured jobs at the moment.</p>
         )}
       </section>
 
-      <section className="bg-white py-16">
+      <section className="bg-surface-50 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="mb-10 text-center text-2xl font-bold text-slate-900">
+          <h2 className="mb-10 text-center text-2xl font-bold text-stone-900">
             Jobs by Category
           </h2>
           {error && <Alert message={error} />}
@@ -76,10 +79,10 @@ export default function LandingPage() {
               .map((cat) => (
                 <div key={cat.id}>
                   <div className="mb-4 flex items-center justify-between">
-                    <h3 className="text-xl font-semibold text-slate-800">{cat.name}</h3>
+                    <h3 className="text-xl font-semibold text-stone-800">{cat.name}</h3>
                     <Link
                       to={`/jobs?categoryId=${cat.id}`}
-                      className="text-sm text-primary-600 hover:underline"
+                      className="link-accent text-sm"
                     >
                       See all in {cat.name}
                     </Link>

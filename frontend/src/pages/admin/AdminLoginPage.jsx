@@ -27,10 +27,10 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-surface-50 px-4">
       <div className="card w-full max-w-md">
-        <h1 className="text-2xl font-bold text-slate-900">Admin Login</h1>
-        <p className="mt-1 text-sm text-slate-500">Manage jobs and platform data</p>
+        <h1 className="text-2xl font-bold text-stone-900">Admin Login</h1>
+        <p className="mt-1 text-sm text-stone-500">Manage jobs and platform data</p>
         {error && <Alert message={error} className="mt-4" />}
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
           <FormField label="Email" error={errors.email?.message} required>
@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
             {loading ? <LoadingSpinner size="sm" /> : 'Sign In'}
           </button>
         </form>
-        <p className="mt-4 text-center text-xs text-slate-400">
+        <p className="mt-4 text-center text-xs text-stone-400">
           Demo: admin@jobportal.com / Admin@123
         </p>
       </div>

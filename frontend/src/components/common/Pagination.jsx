@@ -21,7 +21,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
           <button type="button" onClick={() => onPageChange(1)} className="btn-secondary px-3 py-2">
             1
           </button>
-          {start > 2 && <span className="px-2 text-slate-400">…</span>}
+          {start > 2 && <span className="px-2 text-stone-400">…</span>}
         </>
       )}
       {pages.map((p) => (
@@ -31,8 +31,8 @@ export default function Pagination({ page, totalPages, onPageChange }) {
           onClick={() => onPageChange(p)}
           className={`min-w-[2.5rem] rounded-lg px-3 py-2 text-sm font-medium ${
             p === page
-              ? 'bg-primary-600 text-white'
-              : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50'
+              ? 'bg-accent-500 text-white'
+              : 'border border-stone-300 bg-white text-stone-700 hover:bg-surface-100'
           }`}
         >
           {p}
@@ -40,7 +40,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
       ))}
       {end < totalPages && (
         <>
-          {end < totalPages - 1 && <span className="px-2 text-slate-400">…</span>}
+          {end < totalPages - 1 && <span className="px-2 text-stone-400">…</span>}
           <button
             type="button"
             onClick={() => onPageChange(totalPages)}

@@ -3,13 +3,22 @@ import * as authService from '../services/authService.js';
 
 export const register = asyncHandler(async (req, res) => {
   const user = await authService.registerUser(req.body);
-  const tokens = await authService.issueTokens({
+  const data = await authService.issueTokens({
     id: user.id,
     email: user.email,
     full_name: user.full_name,
     role: user.role,
   });
-  res.status(201).json({ success: true, data: tokens });
+  res.cookie('refreshToken', data.refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+  res.status(201).json({
+    success: true,
+    data: { user: data.user, accessToken: data.accessToken },
+  });
 });
 
 export const login = asyncHandler(async (req, res) => {

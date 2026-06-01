@@ -59,7 +59,7 @@ export const listJobs = async (filters = {}, { forPublic = false } = {}) => {
   const page = Math.max(1, parseInt(filters.page, 10) || 1);
   const limit = Math.min(50, Math.max(1, parseInt(filters.limit, 10) || 10));
   const offset = (page - 1) * limit;
-  const sortBy = ['created_at', 'title', 'salary_max'].includes(filters.sortBy)
+  const sortBy = ['created_at', 'salary_max'].includes(filters.sortBy)
     ? filters.sortBy
     : 'created_at';
   const sortOrder = filters.sortOrder === 'asc' ? 'ASC' : 'DESC';

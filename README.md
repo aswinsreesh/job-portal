@@ -1,6 +1,6 @@
-# Job Portal Management System
+# HireBridge
 
-A full-stack job portal with separate **Admin** and **User** portals. Admins manage job postings; users browse, filter, and apply for jobs.
+A full-stack job platform with separate **Admin** and **User** portals. Admins manage job postings; users browse, filter, and apply for jobs.
 
 ## Tech Stack
 
@@ -99,6 +99,7 @@ App runs at **http://localhost:5173**
 
 - Login with JWT access + refresh tokens
 - Dashboard with job/user/application stats
+- **Applications** page: view all applicants, cover letters, filter by job/status, update status
 - Job CRUD (create, edit, list, delete)
 - Filtering by category, experience level, status
 - Pagination on job listings
@@ -131,6 +132,8 @@ App runs at **http://localhost:5173**
 | PUT | `/api/jobs/admin/:id` | Update job |
 | DELETE | `/api/jobs/admin/:id` | Delete job |
 | GET | `/api/jobs/admin/stats` | Dashboard stats |
+| GET | `/api/jobs/admin/applications` | List applications (filters + pagination) |
+| PATCH | `/api/jobs/admin/applications/:id` | Update application status |
 
 ## Environment Variables
 
@@ -164,7 +167,3 @@ See `backend/.env.example` for all variables:
 | `npm run dev` | Vite dev server |
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
-
-## License
-
-MIT

@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/api/health', (_req, res) => {
-  res.json({ success: true, message: 'Job Portal API is running' });
+  res.json({ success: true, message: 'HireBridge API is running' });
 });
 
 app.use('/api/auth', authRoutes);

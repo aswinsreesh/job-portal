@@ -6,11 +6,11 @@ import Alert from '../../components/common/Alert';
 import { fetchDashboardStats } from '../../store/slices/dashboardSlice';
 
 const statCards = [
-  { key: 'total_jobs', label: 'Total Jobs', color: 'bg-blue-500' },
-  { key: 'published_jobs', label: 'Published', color: 'bg-green-500' },
-  { key: 'draft_jobs', label: 'Drafts', color: 'bg-amber-500' },
-  { key: 'total_users', label: 'Users', color: 'bg-purple-500' },
-  { key: 'total_applications', label: 'Applications', color: 'bg-rose-500' },
+  { key: 'total_jobs', label: 'Total Jobs', color: 'bg-primary-700' },
+  { key: 'published_jobs', label: 'Published', color: 'bg-primary-500' },
+  { key: 'draft_jobs', label: 'Drafts', color: 'bg-accent-400' },
+  { key: 'total_users', label: 'Users', color: 'bg-accent-500' },
+  { key: 'total_applications', label: 'Applications', color: 'bg-primary-600' },
 ];
 
 export default function DashboardPage() {
@@ -26,19 +26,22 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900">Dashboard</h2>
-      <p className="mt-1 text-slate-500">Overview of your job portal</p>
+      <h2 className="text-2xl font-bold text-stone-900">Dashboard</h2>
+      <p className="mt-1 text-stone-500">Overview of HireBridge</p>
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {statCards.map(({ key, label, color }) => (
           <div key={key} className="card">
             <div className={`mb-3 h-1 w-12 rounded ${color}`} />
-            <p className="text-3xl font-bold text-slate-900">{stats?.[key] ?? 0}</p>
-            <p className="mt-1 text-sm text-slate-500">{label}</p>
+            <p className="text-3xl font-bold text-stone-900">{stats?.[key] ?? 0}</p>
+            <p className="mt-1 text-sm text-stone-500">{label}</p>
           </div>
         ))}
       </div>
-      <div className="mt-8 flex gap-4">
-        <Link to="/admin/jobs/new" className="btn-primary">
+      <div className="mt-8 flex flex-wrap gap-4">
+        <Link to="/admin/applications" className="btn-primary">
+          View Applications
+        </Link>
+        <Link to="/admin/jobs/new" className="btn-secondary">
           Create New Job
         </Link>
         <Link to="/admin/jobs" className="btn-secondary">

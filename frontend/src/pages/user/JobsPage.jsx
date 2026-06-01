@@ -55,42 +55,39 @@ export default function JobsPage() {
     <div className="flex min-h-screen flex-col">
       <UserHeader />
       <div className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
-        <h1 className="mb-8 text-3xl font-bold text-slate-900">Browse Jobs</h1>
-        <div className="grid gap-8 lg:grid-cols-4">
-          <aside className="lg:col-span-1">
-            <JobFilters
-              filters={filters}
-              categories={categories}
-              onChange={setFilters}
-              onReset={() => setFilters(defaultFilters)}
-            />
-          </aside>
-          <div className="lg:col-span-3">
-            {error && <Alert message={error} />}
-            {loading ? (
-              <LoadingSpinner className="py-20" />
-            ) : list.length === 0 ? (
-              <div className="card py-16 text-center text-slate-500">
-                No jobs match your filters. Try adjusting your search.
+        <h1 className="mb-8 text-3xl font-bold text-stone-900">Browse Jobs</h1>
+        <JobFilters
+          layout="bar"
+          filters={filters}
+          categories={categories}
+          onChange={setFilters}
+          onReset={() => setFilters(defaultFilters)}
+        />
+        <div>
+          {error && <Alert message={error} />}
+          {loading ? (
+            <LoadingSpinner className="py-20" />
+          ) : list.length === 0 ? (
+            <div className="card py-16 text-center text-stone-500">
+              No jobs match your filters. Try adjusting your search.
+            </div>
+          ) : (
+            <>
+              <p className="mb-4 text-sm text-stone-500">
+                Showing {list.length} of {pagination.total} jobs
+              </p>
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {list.map((job) => (
+                  <JobCard key={job.id} job={job} />
+                ))}
               </div>
-            ) : (
-              <>
-                <p className="mb-4 text-sm text-slate-500">
-                  Showing {list.length} of {pagination.total} jobs
-                </p>
-                <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                  {list.map((job) => (
-                    <JobCard key={job.id} job={job} />
-                  ))}
-                </div>
-                <Pagination
-                  page={pagination.page}
-                  totalPages={pagination.totalPages}
-                  onPageChange={handlePageChange}
-                />
-              </>
-            )}
-          </div>
+              <Pagination
+                page={pagination.page}
+                totalPages={pagination.totalPages}
+                onPageChange={handlePageChange}
+              />
+            </>
+          )}
         </div>
       </div>
       <Footer />

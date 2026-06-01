@@ -22,8 +22,8 @@ export default function JobCreatePage() {
   };
 
   return (
-    <div>
-      <h2 className="mb-6 text-2xl font-bold text-slate-900">Create Job</h2>
+    <div className="mx-auto max-w-3xl">
+      <h2 className="mb-6 text-2xl font-bold text-stone-900">Create Job</h2>
       <JobForm onSubmit={handleSubmit} saving={saving} error={error} />
     </div>
   );

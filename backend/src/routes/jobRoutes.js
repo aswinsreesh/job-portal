@@ -1,8 +1,14 @@
 import { Router } from 'express';
 import * as jobController from '../controllers/jobController.js';
+import * as applicationController from '../controllers/applicationController.js';
 import { authenticate, requireRole } from '../middleware/auth.js';
 import { optionalAuth } from '../middleware/optionalAuth.js';
 import { validate } from '../middleware/validate.js';
+import {
+  applicationIdValidator,
+  listApplicationsValidator,
+  updateApplicationStatusValidator,
+} from '../validators/applicationValidators.js';
 import {
   applyValidator,
   createJobValidator,
@@ -39,6 +45,18 @@ router.post(
 const adminRouter = Router();
 adminRouter.use(authenticate, requireRole('admin'));
 adminRouter.get('/stats', jobController.dashboardStats);
+adminRouter.get(
+  '/applications',
+  listApplicationsValidator,
+  validate,
+  applicationController.adminListApplications
+);
+adminRouter.patch(
+  '/applications/:id',
+  updateApplicationStatusValidator,
+  validate,
+  applicationController.adminUpdateApplicationStatus
+);
 adminRouter.get('/', jobController.adminListJobs);
 adminRouter.get('/:id', jobIdValidator, validate, jobController.adminGetJob);
 adminRouter.post('/', createJobValidator, validate, jobController.createJob);

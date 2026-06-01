@@ -36,8 +36,8 @@ export default function LoginPage() {
       <UserHeader />
       <div className="mx-auto w-full max-w-md flex-1 px-4 py-12">
         <div className="card">
-          <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
-          <p className="mt-1 text-sm text-slate-500">Sign in to apply for jobs</p>
+          <h1 className="text-2xl font-bold text-stone-900">Welcome back</h1>
+          <p className="mt-1 text-sm text-stone-500">Sign in to apply for jobs</p>
           {error && <Alert message={error} className="mt-4" />}
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
             <FormField label="Email" error={errors.email?.message} required>
@@ -61,13 +61,13 @@ export default function LoginPage() {
               {loading ? <LoadingSpinner size="sm" /> : 'Sign In'}
             </button>
           </form>
-          <p className="mt-4 text-center text-sm text-slate-500">
+          <p className="mt-4 text-center text-sm text-stone-500">
             Don&apos;t have an account?{' '}
-            <Link to="/register" className="text-primary-600 hover:underline">
+            <Link to="/register" className="link-accent">
               Register
             </Link>
           </p>
-          <p className="mt-2 text-center text-xs text-slate-400">
+          <p className="mt-2 text-center text-xs text-stone-400">
             Demo: user@jobportal.com / User@123
           </p>
         </div>

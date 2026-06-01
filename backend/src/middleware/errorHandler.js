@@ -3,7 +3,11 @@ export const errorHandler = (err, req, res, _next) => {
   const message = err.isOperational ? err.message : 'Internal server error';
 
   if (process.env.NODE_ENV !== 'production') {
-    console.error(err);
+    if (err.isOperational) {
+      console.warn(`${statusCode} ${message}`);
+    } else {
+      console.error(err);
+    }
   }
 
   res.status(statusCode).json({

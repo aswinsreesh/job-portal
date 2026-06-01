@@ -11,7 +11,7 @@ export const login = createAsyncThunk(
         return rejectWithValue(
           role === 'admin'
             ? 'Admin access only. Use admin credentials.'
-            : 'Please use the user login portal.'
+            : 'Please use the admin user login portal.'
         );
       }
       setAccessToken(accessToken);
@@ -77,6 +77,9 @@ const authSlice = createSlice({
     clearAuthError: (state) => {
       state.error = null;
     },
+    markInitialized: (state) => {
+      state.initialized = true;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -128,5 +131,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearAuthError } = authSlice.actions;
+export const { clearAuthError, markInitialized } = authSlice.actions;
 export default authSlice.reducer;

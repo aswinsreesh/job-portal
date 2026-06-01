@@ -37,7 +37,7 @@ export default function JobForm({ initialData, onSubmit, saving, error }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="card max-w-3xl">
+    <form onSubmit={handleSubmit(submit)} className="card mx-auto max-w-3xl w-full">
       {error && (
         <div className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
@@ -102,7 +102,7 @@ export default function JobForm({ initialData, onSubmit, saving, error }) {
         <FormField label="Featured">
           <label className="flex items-center gap-2">
             <input type="checkbox" className="rounded" {...register('isFeatured')} />
-            <span className="text-sm text-slate-600">Show on homepage</span>
+            <span className="text-sm text-stone-600">Show on homepage</span>
           </label>
         </FormField>
       </div>

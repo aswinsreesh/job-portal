@@ -45,8 +45,8 @@ export default function JobEditPage() {
     : null;
 
   return (
-    <div>
-      <h2 className="mb-6 text-2xl font-bold text-slate-900">Edit Job</h2>
+    <div className="mx-auto max-w-3xl">
+      <h2 className="mb-6 text-2xl font-bold text-stone-900">Edit Job</h2>
       {initialData ? (
         <JobForm
           key={id}
@@ -56,7 +56,7 @@ export default function JobEditPage() {
           error={error}
         />
       ) : (
-        <p className="text-slate-500">Job not found.</p>
+        <p className="text-stone-500">Job not found.</p>
       )}
     </div>
   );

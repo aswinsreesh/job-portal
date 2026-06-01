@@ -5,24 +5,24 @@ export default function JobCard({ job, linkPrefix = '/jobs' }) {
   return (
     <Link
       to={`${linkPrefix}/${job.id}`}
-      className="card group block transition hover:border-primary-300 hover:shadow-md"
+      className="card group block transition hover:border-accent-300 hover:shadow-md"
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 group-hover:text-primary-600">
+          <h3 className="text-lg font-semibold text-stone-900 group-hover:text-accent-600">
             {job.title}
           </h3>
-          <p className="mt-1 text-sm font-medium text-slate-600">{job.companyName}</p>
+          <p className="mt-1 text-sm font-medium text-stone-600">{job.companyName}</p>
         </div>
         {job.isFeatured && (
-          <span className="shrink-0 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">
+          <span className="shrink-0 rounded-full bg-accent-100 px-2.5 py-0.5 text-xs font-semibold text-accent-800">
             Featured
           </span>
         )}
       </div>
-      <div className="mt-4 flex flex-wrap gap-2 text-sm text-slate-500">
-        <span className="rounded-md bg-slate-100 px-2 py-1">{job.location}</span>
-        <span className="rounded-md bg-slate-100 px-2 py-1">
+      <div className="mt-4 flex flex-wrap gap-2 text-sm text-stone-500">
+        <span className="rounded-md bg-surface-100 px-2 py-1">{job.location}</span>
+        <span className="rounded-md bg-surface-100 px-2 py-1">
           {formatExperience(job.experienceLevel)}
         </span>
         {job.category?.name && (
@@ -31,7 +31,7 @@ export default function JobCard({ job, linkPrefix = '/jobs' }) {
           </span>
         )}
       </div>
-      <p className="mt-3 text-sm font-medium text-primary-600">
+      <p className="mt-3 text-sm font-medium text-accent-600">
         {formatSalary(job.salaryMin, job.salaryMax)}
       </p>
     </Link>
